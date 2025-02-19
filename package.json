@@ -3,18 +3,33 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/routes/index.ts"
+    "start": "NODE_ENV=production node dist/index.js",
+    "build": "tsc",
+    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+    "migration:generate": "sh -c 'npx typeorm-ts-node-commonjs migration:generate ./src/database/migrations/$0 -d ./src/database/dataSource.ts'",
+    "migration:create": "npx typeorm-ts-node-commonjs migration:create -d ./src/database/dataSource.ts",
+    "migration:run": "npx typeorm-ts-node-commonjs migration:run -d ./src/database/dataSource.ts",
+    "migration:revert": "npx typeorm-ts-node-commonjs  migration:revert -d ./src/database/dataSource.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "express": "^4.21.2"
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "google-auth-library": "^9.15.1",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.13.3",
+    "reflect-metadata": "^0.2.2",
+    "ts-node": "^10.9.2",
+    "typeorm": "^0.3.20",
+    "typescript": "^5.7.3"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.8",
     "nodemon": "^3.1.9"
   }
 }
