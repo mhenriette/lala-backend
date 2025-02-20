@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany } from "typeorm";
+import { Property } from "./property";
 
 @Entity()
 export class User extends BaseEntity {
@@ -19,6 +20,9 @@ export class User extends BaseEntity {
 
   @Column()
   profilePictureUrl: string;
+
+  @OneToMany(() => Property, (property) => property.host)
+  properties: Property[];
   
   
 }

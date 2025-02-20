@@ -3,6 +3,7 @@ import dataSource from './database/dataSource';
 import "reflect-metadata";
 import authenticationRoute from './routes/authentication.route';
 import cors from 'cors';
+import propertyRoute from './routes/property.route';
 const app = express();
 
 
@@ -12,6 +13,7 @@ app.use(cors())
 
 
 app.use("/api/auth", authenticationRoute);
+app.use("/api/properties", propertyRoute);
 dataSource.initialize()
   .then(async () => {
     app.listen(port, () => {
@@ -19,4 +21,3 @@ dataSource.initialize()
     });
   })
   .catch((error) => console.log(error));
-// export default router;
