@@ -28,15 +28,15 @@ import { OAuth2Client } from "google-auth-library";
     if (!user) {
       const newUser = new User();
 
-    //   if (!payload.email) throw new BadRequestError("Email is required");
-
       newUser.email = payload?.email || "";
       newUser.profilePictureUrl = payload?.picture || "";
-
+      newUser.firstName = payload?.given_name || "";
+      newUser.lastName = payload?.family_name || "";
       await newUser.save();
 
       const userData = {
         id: newUser.id,
+        role: newUser.role,
         email: newUser.email,
         names: newUser.firstName + " " + newUser.lastName,
         profilePictureUrl: newUser.profilePictureUrl,

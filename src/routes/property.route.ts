@@ -3,6 +3,7 @@ import PropertyController from '../controllers/PropertyController';
 
 const router = Router();
 
-router.post('/properties', PropertyController.createProperty);
+router.post('/', PropertyController.createProperty);
+router.get('/', PropertyController.createProperty);
 
 export default router;

@@ -1,11 +1,22 @@
 import { Request, Response } from 'express';
+import { Property } from '../database/entities/property';
 
 class PropertyController {
-    public createProperty(req: Request, res: Response): void {
+    public async createProperty(req: Request, res: Response): Promise<void> {
         const propertyData = req.body; 
-        console.log('Received property data:', propertyData);
-
-        res.status(201).json({ message: 'Property created successfully', data: propertyData });
+        try {
+            const property = new Property();
+            property.title = propertyData.title;
+            property.description = propertyData.description;
+            property.pricePerNight = propertyData.pricePerNight;
+            property.location = propertyData.location;
+            property.hostId = propertyData.hostId;
+            await property.save();
+            res.status(201).json({ message: 'Property created successfully', data: property });
+        } catch (error) {
+           console.error('Error creating property:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
     }
 }
 

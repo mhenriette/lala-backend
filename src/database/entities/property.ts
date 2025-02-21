@@ -21,7 +21,7 @@ export class Property extends BaseEntity {
   @Column()
   hostId: string;
 
-@ManyToOne(() => User, (user) => user.properties)
+@ManyToOne(() => User, (user) => user.properties, { nullable: true })
 @JoinColumn({ name: "hostId" })
     host: User;
   
