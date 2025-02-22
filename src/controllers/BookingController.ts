@@ -132,4 +132,23 @@ export class BookingController {
     response.status(200).json(bookings);
     return;
   }
+  static async listBookingsOnMyProperties(
+    request: Request,
+    response: Response
+  ) {
+    const authenticatedRequest = request as AuthenticatedRequest;
+    const userId = authenticatedRequest.user.id;
+    const bookings = await Bookings.find({
+      select: ["property"],
+      where: {
+        property: {
+          host: {
+            id: userId,
+          },
+        },
+      },
+    });
+    response.status(200).json(bookings);
+    return;
+  }
 }

@@ -13,4 +13,6 @@ router.put('/confirm/:bookingId', BookingController.confirmBooking);
 router.put('/reject/:bookingId', BookingController.rejectBooking);
 router.put('/cancel/:bookingId', BookingController.cancelBooking);
 
+router.get("/their", BookingController.listBookingsOnMyProperties);
+
 export default router;
