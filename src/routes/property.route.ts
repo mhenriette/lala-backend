@@ -6,7 +6,7 @@ import { isHost } from "../middleware.ts/isHost";
 
 const router = Router();
 
-router.post('/', PropertyController.createProperty);
+router.post('/',isLoggedIn, PropertyController.createProperty);
 router.get('/', PropertyController.listProperties);
 
 router.post("/", isLoggedIn, isHost, PropertyController.createProperty);

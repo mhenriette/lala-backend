@@ -10,11 +10,11 @@ router.delete('/:bookingId', isLoggedIn, isRenter, BookingController.cancelBooki
 router.get('/', isLoggedIn, isRenter, BookingController.listMyBookings);
 
 
-router.get('/:bookingId/status', BookingController.getBookingStatus);
-router.put('/confirm/:bookingId', BookingController.confirmBooking);
-router.put('/reject/:bookingId', BookingController.rejectBooking);
-router.put('/cancel/:bookingId', BookingController.cancelBooking);
+router.get('/:bookingId/status',isLoggedIn, BookingController.getBookingStatus);
+router.put('/confirm/:bookingId', isLoggedIn, BookingController.confirmBooking);
+router.put('/reject/:bookingId', isLoggedIn, BookingController.rejectBooking);
+router.put('/cancel/:bookingId', isLoggedIn, isRenter, BookingController.cancelBooking);
 
-router.get("/their", BookingController.listBookingsOnMyProperties);
+router.get("/their-bookings", isLoggedIn, BookingController.listBookingsOnMyProperties);
 
 export default router;
