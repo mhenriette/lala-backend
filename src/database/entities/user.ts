@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { Bookings } from "./booking";
 import { Property } from "./property";
 
 export enum UserRole {
@@ -28,6 +36,7 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Property, (property) => property.host)
   properties: Property[];
-  
-  
+
+  @OneToOne(() => Bookings, (bookings) => bookings.renter)
+  bookings: Bookings;
 }

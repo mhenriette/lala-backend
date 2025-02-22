@@ -4,6 +4,7 @@ import "reflect-metadata";
 import authenticationRoute from './routes/authentication.route';
 import cors from 'cors';
 import propertyRoute from './routes/property.route';
+import bookingRoute from './routes/booking.route';
 const app = express();
 
 
@@ -15,6 +16,7 @@ app.use(express.json());
 
 app.use("/api/auth", authenticationRoute);
 app.use("/api/properties", propertyRoute);
+app.use("/api/bookings", bookingRoute);
 dataSource.initialize()
   .then(async () => {
     app.listen(port, () => {

@@ -68,6 +68,7 @@ import { OAuth2Client } from "google-auth-library";
       email: user.email,
       names: user.firstName + " " + user.lastName,
       profilePictureUrl: user.profilePictureUrl,
+      role: user.role,
     };
 
     // generate access and refresh tokens

@@ -1,4 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, JoinColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  LessThan,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { Bookings } from "./booking";
 import { User } from "./user";
 
 @Entity()
@@ -21,9 +31,25 @@ export class Property extends BaseEntity {
   @Column()
   hostId: string;
 
-@ManyToOne(() => User, (user) => user.properties, { nullable: true })
-@JoinColumn({ name: "hostId" })
-    host: User;
-  
-  
+  @ManyToOne(() => User, (user) => user.properties, { nullable: true })
+  @JoinColumn({ name: "hostId" })
+  host: User;
+
+  @OneToOne(() => Bookings, (bookings) => bookings.renter)
+  bookings: Bookings;
+
+  async isBooked(): Promise<boolean> {
+    const now = new Date();
+    const booking = await Bookings.findOne({
+      where: {
+        property: {
+          id: this.id,
+        },
+        status: true,
+        until: LessThan(now),
+      },
+    });
+
+    return !!booking;
+  }
 }

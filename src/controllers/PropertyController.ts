@@ -18,6 +18,15 @@ class PropertyController {
             res.status(500).json({ message: 'Internal server error' });
         }
     }
+     async listProperties(req: Request, res: Response) {
+        try {
+            const properties = await Property.find();
+            res.status(200).json(properties);
+        } catch (error) {
+            console.error('Error listing properties:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    }
 }
 
 export default new PropertyController();
