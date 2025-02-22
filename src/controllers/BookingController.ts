@@ -128,7 +128,7 @@ export class BookingController {
   static async listMyBookings(request: Request, response: Response) {
     const authenticatedRequest = request as AuthenticatedRequest;
     const userId = authenticatedRequest.user.id;
-    const bookings = await Bookings.find({ where: { renter: { id: userId } } });
+    const bookings = await Bookings.find({ where: { renter: { id: userId } }, relations: ["property"] });
     response.status(200).json(bookings);
     return;
   }

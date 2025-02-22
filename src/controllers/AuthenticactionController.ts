@@ -66,9 +66,9 @@ import { OAuth2Client } from "google-auth-library";
     const userData = {
       id: user.id,
       email: user.email,
+      role: user.role,
       names: user.firstName + " " + user.lastName,
       profilePictureUrl: user.profilePictureUrl,
-      role: user.role,
     };
 
     // generate access and refresh tokens
