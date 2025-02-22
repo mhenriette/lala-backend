@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { User } from "../database/entities/user";
+import { User, UserRole } from "../database/entities/user";
 import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
 
@@ -8,6 +8,7 @@ import { OAuth2Client } from "google-auth-library";
 
  static async signin(request: Request, response: Response) {
     const { token } = request.body;
+    const { role } = request.body;
 
     const WEB_CLIENT_ID = process.env.WEB_GOOGLE_CLIENT_ID;
 
@@ -32,6 +33,7 @@ import { OAuth2Client } from "google-auth-library";
       newUser.profilePictureUrl = payload?.picture || "";
       newUser.firstName = payload?.given_name || "";
       newUser.lastName = payload?.family_name || "";
+      newUser.role = role.toUpperCase() as UserRole;
       await newUser.save();
 
       const userData = {
