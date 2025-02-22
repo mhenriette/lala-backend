@@ -83,7 +83,7 @@ export class BookingController {
 
   static async rejectBooking(request: Request, response: Response) {
     const { bookingId } = request.params as { bookingId: string };
-    const booking = await Bookings.findOne({ where: { id: bookingId } });
+    const booking = await Bookings.findOne({ where: { id: bookingId }, relations: ['property'] });
     const authenticatedRequest = request as AuthenticatedRequest;
     const user = authenticatedRequest.user;
     
@@ -93,7 +93,7 @@ export class BookingController {
       return;
     }
     
-    const isPropertyOwner = user.id === booking?.property.id;
+    const isPropertyOwner = user.id === booking?.property.hostId;
     if (!isPropertyOwner) {
       response.status(404).json({ message: "You need to be the owner of the property to confirm or reject a booking." });
       return;
@@ -105,7 +105,7 @@ export class BookingController {
 
   static async confirmBooking(request: Request, response: Response) {
     const { bookingId } = request.params as { bookingId: string };
-    const booking = await Bookings.findOne({ where: { id: bookingId } });
+    const booking = await Bookings.findOne({ where: { id: bookingId }, relations: ['property'] });
     const authenticatedRequest = request as AuthenticatedRequest;
     const user = authenticatedRequest.user;
 
@@ -115,7 +115,7 @@ export class BookingController {
       return;
     }
     
-    const isPropertyOwner = user.id === booking?.property.id;
+    const isPropertyOwner = user.id === booking?.property.hostId;
     if (!isPropertyOwner) {
       response.status(404).json({ message: "You need to be the owner to confirm or reject a booking." });
       return;
@@ -137,6 +137,7 @@ export class BookingController {
     response: Response
   ) {
     const authenticatedRequest = request as AuthenticatedRequest;
+    console.log(authenticatedRequest.user);
     const userId = authenticatedRequest.user.id;
     const bookings = await Bookings.find({
       select: ["property"],
@@ -147,6 +148,7 @@ export class BookingController {
           },
         },
       },
+      relations: ["property"]
     });
     response.status(200).json(bookings);
     return;
