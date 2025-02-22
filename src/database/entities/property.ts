@@ -8,7 +8,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Bookings } from "./booking";
+import { Bookings, Status } from "./booking";
 import { User } from "./user";
 
 @Entity()
@@ -38,15 +38,15 @@ export class Property extends BaseEntity {
   @OneToOne(() => Bookings, (bookings) => bookings.renter)
   bookings: Bookings;
 
-  async isBooked(): Promise<boolean> {
-    const now = new Date();
+  async isBooked(until: string): Promise<boolean> {
+    const to = new Date(until);
     const booking = await Bookings.findOne({
       where: {
         property: {
           id: this.id,
         },
-        status: true,
-        until: LessThan(now),
+        status: Status.CONFIRMED,
+        until: LessThan(to),
       },
     });
 

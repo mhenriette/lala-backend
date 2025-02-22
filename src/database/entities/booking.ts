@@ -1,14 +1,21 @@
 import {
-    BaseEntity,
-    Column,
-    Entity,
-    JoinColumn,
-    ManyToOne,
-    OneToOne,
-    PrimaryGeneratedColumn
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 import { Property } from "./property";
 import { User } from "./user";
+
+export enum Status {
+  PENDING = "pending",
+  CONFIRMED = "confirmed",
+  REJECTED = "rejected",
+  CANCELED = "canceled",
+}
 
 @Entity()
 export class Bookings extends BaseEntity {
@@ -16,7 +23,7 @@ export class Bookings extends BaseEntity {
   id: string;
 
   @OneToOne(() => Property, (property) => property.bookings)
-  property: Property
+  property: Property;
 
   @Column("timestamp")
   from: Date;
@@ -24,8 +31,8 @@ export class Bookings extends BaseEntity {
   @Column("timestamp")
   until: Date;
 
-  @Column("boolean", { default: true  })
-  status: Boolean
+  @Column({ type: "enum", default: Status.PENDING, enum: Status })
+  status: Status;
 
   @ManyToOne(() => User, (user) => user.properties, { nullable: true })
   @JoinColumn({ name: "hostId" })
