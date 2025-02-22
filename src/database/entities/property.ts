@@ -5,8 +5,8 @@ import {
   JoinColumn,
   LessThan,
   ManyToOne,
-  OneToOne,
-  PrimaryGeneratedColumn,
+  OneToMany,
+  PrimaryGeneratedColumn
 } from "typeorm";
 import { Bookings, Status } from "./booking";
 import { User } from "./user";
@@ -35,7 +35,7 @@ export class Property extends BaseEntity {
   @JoinColumn({ name: "hostId" })
   host: User;
 
-  @OneToOne(() => Bookings, (bookings) => bookings.renter)
+  @OneToMany(() => Bookings, (bookings) => bookings.property)
   bookings: Bookings;
 
   async isBooked(until: string): Promise<boolean> {

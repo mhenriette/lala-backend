@@ -4,8 +4,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToOne,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn
 } from "typeorm";
 import { Property } from "./property";
 import { User } from "./user";
@@ -22,7 +21,7 @@ export class Bookings extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @OneToOne(() => Property, (property) => property.bookings)
+  @ManyToOne(() => Property, (property) => property.bookings)
   property: Property;
 
   @Column("timestamp")
